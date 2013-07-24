@@ -30,15 +30,11 @@ namespace MultiIMSIInstallParameter
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.ContainerPanel = new System.Windows.Forms.Panel();
+            this.ParserType = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // textBox1
@@ -50,22 +46,13 @@ namespace MultiIMSIInstallParameter
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 289);
+            this.button1.Location = new System.Drawing.Point(12, 394);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(125, 23);
             this.button1.TabIndex = 1;
             this.button1.Text = "Translate";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(262, 24);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.Size = new System.Drawing.Size(592, 322);
-            this.dataGridView1.TabIndex = 2;
             // 
             // label1
             // 
@@ -78,7 +65,7 @@ namespace MultiIMSIInstallParameter
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(15, 318);
+            this.button2.Location = new System.Drawing.Point(14, 423);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(123, 23);
             this.button2.TabIndex = 7;
@@ -88,58 +75,46 @@ namespace MultiIMSIInstallParameter
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(156, 147);
+            this.button3.Location = new System.Drawing.Point(143, 423);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(136, 23);
             this.button3.TabIndex = 0;
-            this.button3.Text = "button3";
+            this.button3.Text = "Copy To Clipboard";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // panel1
+            // ContainerPanel
             // 
-            this.panel1.AutoScroll = true;
-            this.panel1.Controls.Add(this.button5);
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Location = new System.Drawing.Point(481, 74);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 100);
-            this.panel1.TabIndex = 0;
+            this.ContainerPanel.AutoScroll = true;
+            this.ContainerPanel.Location = new System.Drawing.Point(285, 12);
+            this.ContainerPanel.Name = "ContainerPanel";
+            this.ContainerPanel.Size = new System.Drawing.Size(569, 439);
+            this.ContainerPanel.TabIndex = 0;
             // 
-            // button4
+            // ParserType
             // 
-            this.button4.Location = new System.Drawing.Point(66, 28);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 0;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(100, 100);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 0;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
+            this.ParserType.Location = new System.Drawing.Point(15, 73);
+            this.ParserType.Name = "ParserType";
+            this.ParserType.Size = new System.Drawing.Size(264, 315);
+            this.ParserType.TabIndex = 8;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(866, 373);
-            this.Controls.Add(this.panel1);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(866, 463);
+            this.Controls.Add(this.ParserType);
+            this.Controls.Add(this.ContainerPanel);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Array Parser";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,13 +124,11 @@ namespace MultiIMSIInstallParameter
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Panel ContainerPanel;
+        private System.Windows.Forms.Panel ParserType;
     }
 }
 
