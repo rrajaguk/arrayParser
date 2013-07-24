@@ -1,0 +1,14 @@
+#this is the sample
+# to comment a line just add '#' at the beginning of the line
+# format of each parameter is always started with parameter name then followed by the length
+# and separated by ',' like below
+two bytes parameter, 2
+
+# if you need to have a parameter which stored the length of the next parameter you'll need 
+# to add 1 extra data which is character N after parameter name and length like below
+this parameter store the length of the next parameter, 1, N
+
+# if in preceding parameter you set the parameter to store the length of this data then you just 
+# need to put a dummy value as a length
+the length of this data is stored on previous part, 5
+

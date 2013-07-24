@@ -49,6 +49,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -92,6 +93,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="bin\Release\ParamDef\DMDetect Installation Parameter.param" />
+    <None Include="bin\Release\ParamDef\MI2 Configuration Parameter.param" />
+    <None Include="bin\Release\ParamDef\MI2 Install Parameter For Buffer.param" />
+    <None Include="bin\Release\ParamDef\MI2 Install Parameter For EF.param" />
+    <None Include="bin\Release\ParamDef\sample.param" />
+    <None Include="bin\Release\ParamDef\SMA.param" />
     <None Include="ParamDef\DMDetect Installation Parameter.param">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -131,6 +138,10 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Release\MultiIMSIInstallParameter.exe" />
+    <Content Include="bin\Release\MultiIMSIInstallParameter.pdb" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
