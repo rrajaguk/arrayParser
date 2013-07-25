@@ -16,6 +16,7 @@ namespace MultiIMSIInstallParameter.Parsers
 
             // parse the content
             ItemParam = new List<ItemRepresentation>();
+            ItemRepresentation prev = null;
             using(StreamReader sr = new StreamReader(fileLocation))
             {
                 string line = " ";
@@ -30,6 +31,16 @@ namespace MultiIMSIInstallParameter.Parsers
                     {
                         continue;
                     }
+                    if ((line[0] == '>') && (prev != null))
+                    {
+                        CompositeItem CI = new CompositeItem();
+                        int index = line.IndexOf(',');
+                        CI.name = line.Substring(1, index);
+                        CI.location = int.Parse(line.Substring(index + 1,line.Length - index - 1));
+                        prev.compositeValues.setItem(CI);
+                        continue;
+                    }
+                    prev = null;
                     ItemRepresentation current = new ItemRepresentation();
                     // process the configuration name
                     int SeparatorIndex = line.IndexOf(',');
@@ -47,7 +58,20 @@ namespace MultiIMSIInstallParameter.Parsers
                     else
                     {
                         tempLengthValueHolder = line.Substring(0, SeparatorIndex);
-                        current.lengthType = ItemRepresentation.LengthType.affectNext;
+
+                        string typeOfEntry = line.Substring(SeparatorIndex +1, line.Length - SeparatorIndex -1).Trim();
+                        switch (typeOfEntry)
+                        {
+                            case "N":
+                                current.valueType = ItemRepresentation.ValueType.normal;
+                                current.lengthType = ItemRepresentation.LengthType.affectNext;
+                                break;
+                            case "C":
+                                current.valueType = ItemRepresentation.ValueType.composite;
+                                current.compositeValues = new CompositeValue();
+                                prev = current;
+                                break;
+                        }
                     }
                     int lengthValue = Int32.Parse(tempLengthValueHolder);
                     current.ItemLength = lengthValue;

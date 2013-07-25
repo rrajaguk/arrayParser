@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MultiIMSIInstallParameter.Parsers;
 using MultiIMSIInstallParameter.Item;
 using MultiIMSIInstallParameter.PreParser;
+using MultiIMSIInstallParameter.CustomGui;
 namespace MultiIMSIInstallParameter
 {
     public partial class Form1 : Form
@@ -19,7 +20,7 @@ namespace MultiIMSIInstallParameter
         private PhysicalFileParser[] ListOfAvailableParser;
         private RadioButton[] ListOfRadioButton;
         private Parser pass;
-        private List<TextBox> ListOfTextBox;
+        private List<Control> ListOfTextBox;
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace MultiIMSIInstallParameter
             AppParam = new ApplicationParameter();
             string[] DefFiles = System.IO.Directory.GetFiles(
                 System.IO.Directory.GetCurrentDirectory() + "\\ParamDef\\", "*.param");
-            ListOfTextBox = new List<TextBox>();
+            ListOfTextBox = new List<Control>();
             if (DefFiles.Length > 0)
             {
                 ListOfAvailableParser = new PhysicalFileParser[DefFiles.Length];
@@ -81,7 +82,7 @@ namespace MultiIMSIInstallParameter
             //foreach (var item in items)
             for (int i = 0; i < items.Count;i++ )
             {
-
+                Point dividerLocation = new Point();
                 ItemRepresentation item = items[i];
                 if (item.lengthType == ItemRepresentation.LengthType.affectNext)
                 {
@@ -96,7 +97,44 @@ namespace MultiIMSIInstallParameter
                 lbl.Location = new System.Drawing.Point((counter_X * 400) + 10, startingOffset_Y);
                 lbl.AutoSize = true;
                 ContainerPanel.Controls.Add(lbl);
-                startingOffset_Y += lbl.Size.Height + 15;
+
+              
+
+                // Text box
+                if (item.valueType == ItemRepresentation.ValueType.normal)
+                {
+                    TextBox TB = new TextBox();
+                    if (item.ItemLength > 0)
+                    {
+                        TB.MaxLength = item.ItemLength * 2;
+                        TB.Size = new System.Drawing.Size(TB.MaxLength * 9, 23);
+                    }
+                    else
+                    {
+                        TB.Size = new System.Drawing.Size(200, 23);
+                    }
+                    TB.DataBindings.Add("Text", item, "ItemValue");
+                    TB.DataBindings.Add("Name", item, "ItemName");
+                    TB.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
+                    ContainerPanel.Controls.Add(TB);
+                    ListOfTextBox.Add(TB);
+                    TB.TextAlign = HorizontalAlignment.Left;
+
+                    // setting of the next items offset
+                    startingOffset_Y += lbl.Size.Height + 15;
+                    dividerLocation  = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7); 
+                }
+                if (item.valueType == ItemRepresentation.ValueType.composite)
+                {
+                    CompositeInput CI = new CompositeInput(item.compositeValues);
+                    CI.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
+                    CI.Size = new System.Drawing.Size(100, item.compositeValues.getItems().Count * 20);
+                    ContainerPanel.Controls.Add(CI);
+                    ListOfTextBox.Add(CI);
+                    // setting of the next items offset
+                    startingOffset_Y += CI.Size.Height + 15;
+                    dividerLocation = new System.Drawing.Point(lbl.Location.X, lbl.Location.Y + CI.Size.Height);
+                }
 
                 Label Label_HorizontalLine = new Label();
                 Label_HorizontalLine.Text = "";
@@ -104,26 +142,8 @@ namespace MultiIMSIInstallParameter
                 Label_HorizontalLine.AutoSize = false;
                 Label_HorizontalLine.Height = 2;
                 Label_HorizontalLine.Width = lbl.Location.X + ContainerPanel.Width;
-                Label_HorizontalLine.Location = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7);
+                Label_HorizontalLine.Location = dividerLocation;
                 ContainerPanel.Controls.Add(Label_HorizontalLine);
-
-                // Text box
-                TextBox TB = new TextBox();
-                if (item.ItemLength > 0)
-                {
-                    TB.MaxLength = item.ItemLength * 2;
-                    TB.Size = new System.Drawing.Size(TB.MaxLength * 9, 23);
-                }
-                else
-                {
-                    TB.Size = new System.Drawing.Size(200, 23);
-                }
-                TB.DataBindings.Add("Text", item, "ItemValue");
-                TB.DataBindings.Add("Name", item, "ItemName");
-                TB.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
-                ContainerPanel.Controls.Add(TB);
-                ListOfTextBox.Add(TB);
-                TB.TextAlign = HorizontalAlignment.Left;
                 counter_Y++;
             }
 
@@ -156,19 +176,18 @@ namespace MultiIMSIInstallParameter
                     {
                         continue;
                     }
-                    ListOfTextBox[counter].Text = IT.ItemValue;
+                    if (IT.valueType == ItemRepresentation.ValueType.normal)
+                    {
+                        ListOfTextBox[counter].Text = IT.ItemValue;
+                    }
+                    else
+                    {
+                        CompositeInput CI = (CompositeInput) ListOfTextBox[counter];
+                        CI.SetValue(IT.ItemValue);
+                    }
                     counter++;
                 }
-                //dataGridView1.DataSource = dt;
-                //dataGridView1.Columns.Insert(2, new DataGridViewCheckBoxColumn());
-                //dataGridView1.Columns[0].Width = 250;
-                //dataGridView1.Columns[1].Width = 300;
             }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show("Wrong data!");
-                //MessageBox.Show(e.Message);
-//            }
         }
 
         private void button2_Click(object sender, EventArgs e)

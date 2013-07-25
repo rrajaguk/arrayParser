@@ -1,4 +1,0 @@
-User Confirmation Message Buffer Size,1
-File size of EF Extended Data,1
-Length of EF Extended Data Path,1,n
-EF Extended Data Path,1					Applicative MSL,1									Applet Activation,1                               Number of Status Trigger,1Maximum SMS Retry,1                      Time interval between 2 status,1                   Send SMS on Cancel or DT Error Activation,1        EF SMSP Record Number,1                            Acknowledgment Activation,1                        User Confirmation Flag,1                           Roaming Detection Activation ,1                    MCC Reference,2                                    Trigger for Notification,1 		                TPOA Check Activation,1 						    TPOA Address,13                                  	DM Detect Server Address,13                        SMSC address,13                                    

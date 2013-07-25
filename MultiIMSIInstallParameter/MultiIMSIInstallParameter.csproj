@@ -60,6 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomGui\CompositeInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomGui\CompositeInput.Designer.cs">
+      <DependentUpon>CompositeInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +73,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GuiHelper\GuiHelper.cs" />
+    <Compile Include="Item\CompositeValue.cs" />
     <Compile Include="Item\ItemRepresentate.cs" />
     <Compile Include="Item\ItemTranslate.cs" />
     <Compile Include="Parsers\ApplicationParameter.cs" />
@@ -77,6 +84,9 @@
     <Compile Include="PreParser\LengthChanger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CustomGui\CompositeInput.resx">
+      <DependentUpon>CompositeInput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Form1.cs</DependentUpon>
@@ -97,24 +107,12 @@
     <None Include="bin\Release\ParamDef\MI2 Install Parameter For EF.param" />
     <None Include="bin\Release\ParamDef\sample.param" />
     <None Include="bin\Release\ParamDef\SMA.param" />
-    <None Include="ParamDef\DMDetect Installation Parameter.param">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParamDef\MI2 Configuration Parameter.param">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParamDef\MI2 Install Parameter For Buffer.param">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParamDef\MI2 Install Parameter For EF.param">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParamDef\sample.param">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParamDef\SMA.param">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="ParamDef\DMDetect Installation Parameter.param" />
+    <None Include="ParamDef\MI2 Configuration Parameter.param" />
+    <None Include="ParamDef\MI2 Install Parameter For Buffer.param" />
+    <None Include="ParamDef\MI2 Install Parameter For EF.param" />
+    <None Include="ParamDef\sample.param" />
+    <None Include="ParamDef\SMA.param" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
