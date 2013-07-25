@@ -8,8 +8,6 @@ using System.Windows.Forms;
 using MultiIMSIInstallParameter.Parsers;
 using MultiIMSIInstallParameter.Item;
 using MultiIMSIInstallParameter.PreParser;
-using Microsoft.VisualBasic.PowerPacks;
-
 namespace MultiIMSIInstallParameter
 {
     public partial class Form1 : Form
@@ -80,7 +78,6 @@ namespace MultiIMSIInstallParameter
             ContainerPanel.Controls.Clear();
             ListOfTextBox.Clear();
             List<ItemRepresentation> items = pass.getItems();
-            List<Shape> ListOfShapes = new List<Shape>();
             //foreach (var item in items)
             for (int i = 0; i < items.Count;i++ )
             {
@@ -101,10 +98,14 @@ namespace MultiIMSIInstallParameter
                 ContainerPanel.Controls.Add(lbl);
                 startingOffset_Y += lbl.Size.Height + 15;
 
-                LineShape LS = new LineShape();
-                LS.StartPoint = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7);
-                LS.EndPoint = new Point(lbl.Location.X + ContainerPanel.Width, lbl.Location.Y + lbl.Size.Height + 7);
-                ListOfShapes.Add(LS);
+                Label Label_HorizontalLine = new Label();
+                Label_HorizontalLine.Text = "";
+                Label_HorizontalLine.BorderStyle = BorderStyle.Fixed3D;
+                Label_HorizontalLine.AutoSize = false;
+                Label_HorizontalLine.Height = 2;
+                Label_HorizontalLine.Width = lbl.Location.X + ContainerPanel.Width;
+                Label_HorizontalLine.Location = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7);
+                ContainerPanel.Controls.Add(Label_HorizontalLine);
 
                 // Text box
                 TextBox TB = new TextBox();
@@ -126,9 +127,7 @@ namespace MultiIMSIInstallParameter
                 counter_Y++;
             }
 
-            ShapeContainer SP = new ShapeContainer();
-            SP.Shapes.AddRange(ListOfShapes.ToArray());
-            ContainerPanel.Controls.Add(SP);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
