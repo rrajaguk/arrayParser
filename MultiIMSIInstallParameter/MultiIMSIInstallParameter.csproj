@@ -107,12 +107,24 @@
     <None Include="bin\Release\ParamDef\MI2 Install Parameter For EF.param" />
     <None Include="bin\Release\ParamDef\sample.param" />
     <None Include="bin\Release\ParamDef\SMA.param" />
-    <None Include="ParamDef\DMDetect Installation Parameter.param" />
-    <None Include="ParamDef\MI2 Configuration Parameter.param" />
-    <None Include="ParamDef\MI2 Install Parameter For Buffer.param" />
-    <None Include="ParamDef\MI2 Install Parameter For EF.param" />
-    <None Include="ParamDef\sample.param" />
-    <None Include="ParamDef\SMA.param" />
+    <None Include="ParamDef\DMDetect Installation Parameter.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ParamDef\MI2 Configuration Parameter.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ParamDef\MI2 Install Parameter For Buffer.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ParamDef\MI2 Install Parameter For EF.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ParamDef\sample.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ParamDef\SMA.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
