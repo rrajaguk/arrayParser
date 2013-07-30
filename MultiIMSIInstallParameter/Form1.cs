@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -38,11 +36,11 @@ namespace MultiIMSIInstallParameter
                 foreach (string defFile in DefFiles)
                 {
                     PhysicalFileParser currentFileParser = new PhysicalFileParser(defFile);
-                  
-                    RadioButton currentParserBtn =  new RadioButton();
+
+                    RadioButton currentParserBtn = new RadioButton();
                     currentParserBtn.CheckedChanged += currentParserBtn_CheckedChanged;
                     currentParserBtn.Text = currentFileParser.ParserName;
-                    currentParserBtn.Location = new System.Drawing.Point(0,(count * 20));
+                    currentParserBtn.Location = new System.Drawing.Point(0, (count * 20));
                     currentParserBtn.Size = new System.Drawing.Size(400, 17);
                     this.ParserType.Controls.Add(currentParserBtn);
 
@@ -51,7 +49,7 @@ namespace MultiIMSIInstallParameter
                     count++;
                 }
             }
-           
+
             pass = EFParam;
         }
 
@@ -80,7 +78,7 @@ namespace MultiIMSIInstallParameter
             ListOfTextBox.Clear();
             List<ItemRepresentation> items = pass.getItems();
             //foreach (var item in items)
-            for (int i = 0; i < items.Count;i++ )
+            for (int i = 0; i < items.Count; i++)
             {
                 Point dividerLocation = new Point();
                 ItemRepresentation item = items[i];
@@ -98,7 +96,7 @@ namespace MultiIMSIInstallParameter
                 lbl.AutoSize = true;
                 ContainerPanel.Controls.Add(lbl);
 
-              
+
 
                 // Text box
                 if (item.valueType == ItemRepresentation.ValueType.normal)
@@ -122,7 +120,7 @@ namespace MultiIMSIInstallParameter
 
                     // setting of the next items offset
                     startingOffset_Y += lbl.Size.Height + 15;
-                    dividerLocation  = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7); 
+                    dividerLocation = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7);
                 }
                 if (item.valueType == ItemRepresentation.ValueType.composite)
                 {
@@ -152,11 +150,8 @@ namespace MultiIMSIInstallParameter
 
         private void button1_Click(object sender, EventArgs e)
         {
-//            try
+            try
             {
-                DataTable dt = new DataTable();
-                dt.Columns.Add("Value");
-                dt.Columns.Add("Description");
                 int counter = 0;
                 foreach (RadioButton radioButton in ListOfRadioButton)
                 {
@@ -166,7 +161,7 @@ namespace MultiIMSIInstallParameter
                     }
                     counter++;
                 }
-                
+
                 List<ItemTranslation> data = new List<ItemTranslation>();
                 pass.Parse(LengthChanger.removeLength(textBox1.Text));
                 counter = 0;
@@ -182,12 +177,17 @@ namespace MultiIMSIInstallParameter
                     }
                     else
                     {
-                        CompositeInput CI = (CompositeInput) ListOfTextBox[counter];
+                        CompositeInput CI = (CompositeInput)ListOfTextBox[counter];
                         CI.SetValue(IT.ItemValue);
                     }
                     counter++;
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Data.ToString());
+            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -199,9 +199,18 @@ namespace MultiIMSIInstallParameter
                 if (items[i].lengthType == ItemRepresentation.LengthType.affectNext)
                 {
                     i++;
-                    sb.Append((items[i].ItemValue.Length/2).ToString("X2"));
+                    sb.Append((items[i].ItemValue.Length / 2).ToString("X2"));
                 }
-                sb.Append(items[i].ItemValue);
+                if (items[i].valueType == ItemRepresentation.ValueType.normal)
+                {
+                    sb.Append(items[i].ItemValue);
+                    continue;
+                }
+                if (items[i].valueType == ItemRepresentation.ValueType.composite)
+                {
+                    sb.Append(items[i].compositeValues.ToString());
+                }
+
             }
             textBox1.Text = sb.ToString();
         }
@@ -209,14 +218,30 @@ namespace MultiIMSIInstallParameter
         private void button3_Click(object sender, EventArgs e)
         {
             var data = new DataObject();
-            data.SetText(@"{\rtf1\ansi\deff0
-{\colortbl;\red0\green0\blue0;\red255\green0\blue0;}
-\cf2 02 \tab \cf1 the default color\line
-\cf2
-This line\cf1 is red\line
-
-This line is the default color
-}", TextDataFormat.Rtf);
+            var colorPalet = @"{\rtf1\ansi\deff0{\colortbl;\red0\green0\blue0;\red255\green0\blue0;}";
+            StringBuilder SB = new StringBuilder();
+            SB.Append(textBox1.Text + @"\line ");
+            foreach (var item in pass.getItems())
+            {
+                if (item.lengthType == ItemRepresentation.LengthType.affectNext)
+                {
+                    continue;
+                }
+                if (item.valueType == ItemRepresentation.ValueType.normal)
+                {
+                    SB.Append(item.ItemValue + @"\tab = " + item.ItemName + @"\line ");
+                    continue;
+                }
+                if (item.valueType == ItemRepresentation.ValueType.composite)
+                {
+                    SB.Append(item.compositeValues.ToString() + @"\tab = " + item.ItemName + @"\line");
+                    foreach (var compositeItem in item.compositeValues.getItems())
+                    {
+                        SB.Append(@"\tab " + compositeItem.name + @"\tab = " + (compositeItem.isChecked ? "activated" : "deactivated") + @"\line ");
+                    }
+                }
+            }
+            data.SetText(colorPalet + SB.ToString() + "}", TextDataFormat.Rtf);
             Clipboard.SetDataObject(data);
         }
     }

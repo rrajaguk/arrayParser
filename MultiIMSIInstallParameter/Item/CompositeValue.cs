@@ -26,5 +26,17 @@ namespace MultiIMSIInstallParameter.Item
         {
             Items.Add(CI);
         }
+        public override string ToString()
+        {
+            int val = 0;
+            foreach (var item in Items)
+            {
+                if (item.isChecked)
+                {
+                    val += (int) Math.Pow(2, item.location - 1);
+                }
+            }
+            return val.ToString("X2");
+        }
     }
 }

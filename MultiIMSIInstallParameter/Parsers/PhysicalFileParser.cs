@@ -35,7 +35,7 @@ namespace MultiIMSIInstallParameter.Parsers
                     {
                         CompositeItem CI = new CompositeItem();
                         int index = line.IndexOf(',');
-                        CI.name = line.Substring(1, index);
+                        CI.name = line.Substring(1, index - 1);
                         CI.location = int.Parse(line.Substring(index + 1,line.Length - index - 1));
                         prev.compositeValues.setItem(CI);
                         continue;
