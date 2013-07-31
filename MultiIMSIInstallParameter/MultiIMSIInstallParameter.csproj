@@ -101,12 +101,24 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="bin\Release\ParamDef\DMDetect Installation Parameter.param" />
-    <None Include="bin\Release\ParamDef\MI2 Configuration Parameter.param" />
-    <None Include="bin\Release\ParamDef\MI2 Install Parameter For Buffer.param" />
-    <None Include="bin\Release\ParamDef\MI2 Install Parameter For EF.param" />
-    <None Include="bin\Release\ParamDef\sample.param" />
-    <None Include="bin\Release\ParamDef\SMA.param" />
+    <None Include="bin\Release\ParamDef\DMDetect Installation Parameter.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="bin\Release\ParamDef\MI2 Configuration Parameter.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="bin\Release\ParamDef\MI2 Install Parameter For Buffer.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="bin\Release\ParamDef\MI2 Install Parameter For EF.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="bin\Release\ParamDef\sample.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="bin\Release\ParamDef\SMA.param">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ParamDef\DMDetect Installation Parameter.param">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

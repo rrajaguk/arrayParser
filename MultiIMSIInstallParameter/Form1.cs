@@ -126,7 +126,7 @@ namespace MultiIMSIInstallParameter
                 {
                     CompositeInput CI = new CompositeInput(item.compositeValues);
                     CI.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
-                    CI.Size = new System.Drawing.Size(100, item.compositeValues.getItems().Count * 20);
+                    CI.Size = new System.Drawing.Size(200, item.compositeValues.getItems().Count * 20);
                     ContainerPanel.Controls.Add(CI);
                     ListOfTextBox.Add(CI);
                     // setting of the next items offset

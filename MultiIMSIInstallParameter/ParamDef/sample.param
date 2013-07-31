@@ -15,8 +15,8 @@ this parameter store the length of the next parameter, 1, N
 the length of this data is stored on previous part, 5
 
 this is composite,1,C
->byte 1, 1
->byte 2, 2
+>byte 1 asd asd a clear gogogn, 1
+>byte 2 d, 2
 >byte 3, 3
 >byte 4, 4
 

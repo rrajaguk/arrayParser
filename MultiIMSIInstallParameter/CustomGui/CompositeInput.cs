@@ -25,6 +25,7 @@ namespace MultiIMSIInstallParameter.CustomGui
                 CB.Name = currentItem.location.ToString();
                 //CB.CheckedChanged += CB_CheckedChanged;
                 CB.Size = new System.Drawing.Size(80, 17);
+                CB.AutoSize = true;
                 CB.Location = new Point(7, 20 * i);
                 CB.DataBindings.Add("Checked", currentItem, "isChecked");
                 this.panel1.Controls.Add(CB);
