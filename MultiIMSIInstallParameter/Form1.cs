@@ -192,6 +192,12 @@ namespace MultiIMSIInstallParameter
 
         private void button2_Click(object sender, EventArgs e)
         {
+            RegerateData();
+        }
+
+        private string[] RegerateData()
+        {
+            List<string> choppedData = new List<string>();
             StringBuilder sb = new StringBuilder();
             List<ItemRepresentation> items = pass.getItems();
             for (int i = 0; i < items.Count; i++)
@@ -200,41 +206,65 @@ namespace MultiIMSIInstallParameter
                 {
                     i++;
                     sb.Append((items[i].ItemValue.Length / 2).ToString("X2"));
+                    choppedData.Add((items[i].ItemValue.Length / 2).ToString("X2"));
                 }
                 if (items[i].valueType == ItemRepresentation.ValueType.normal)
                 {
                     sb.Append(items[i].ItemValue);
+                    choppedData.Add(items[i].ItemValue);
                     continue;
                 }
                 if (items[i].valueType == ItemRepresentation.ValueType.composite)
                 {
                     sb.Append(items[i].compositeValues.ToString());
+                    choppedData.Add(items[i].compositeValues.ToString());
                 }
 
             }
             textBox1.Text = sb.ToString();
+            return choppedData.ToArray();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            String[] choppedData =  RegerateData();
             var data = new DataObject();
+            // setting of color pallet
             var colorPalet = @"{\rtf1\ansi\deff0{\colortbl;\red0\green0\blue0;\red255\green0\blue0;}";
             StringBuilder SB = new StringBuilder();
-            SB.Append(textBox1.Text + @"\line ");
-            foreach (var item in pass.getItems())
+            int counter = 0;
+            foreach (var item in choppedData)
             {
+                SB.Append(((counter % 2 == 0) ? @"\cf1" : @"\cf2" )+ " " + item);
+                counter++;
+            }
+            SB.Append(@"\line ");
+            List<ItemRepresentation> listOfPass = pass.getItems();
+            for(int i = 0; i<listOfPass.Count;i++)
+            {
+                var item = listOfPass[i];
                 if (item.lengthType == ItemRepresentation.LengthType.affectNext)
                 {
+                    SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
+                    SB.Append((listOfPass[i + 1].ItemValue.Length / 2).ToString("X2") + @"\tab ");
+                    SB.Append(@"\cf1 = ");
+                    SB.Append(item.ItemName + @"\line ");
                     continue;
                 }
                 if (item.valueType == ItemRepresentation.ValueType.normal)
                 {
-                    SB.Append(item.ItemValue + @"\tab = " + item.ItemName + @"\line ");
+                    SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
+                    SB.Append(item.ItemValue + @"\tab ");
+                    SB.Append(@"\cf1 = ");
+                    SB.Append(item.ItemName + @"\line ");
                     continue;
                 }
                 if (item.valueType == ItemRepresentation.ValueType.composite)
                 {
-                    SB.Append(item.compositeValues.ToString() + @"\tab = " + item.ItemName + @"\line");
+                    SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
+                    SB.Append(item.compositeValues.ToString() + @"\tab ");
+                    SB.Append(@"\cf1 = ");
+                    SB.Append(item.ItemName + @"\line");
                     foreach (var compositeItem in item.compositeValues.getItems())
                     {
                         SB.Append(@"\tab " + compositeItem.name + @"\tab = " + (compositeItem.isChecked ? "activated" : "deactivated") + @"\line ");
