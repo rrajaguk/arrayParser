@@ -9,7 +9,7 @@ using ParserLibrary.Displayer;
 namespace LibraryTester
 {
     [TestClass]
-    public class DisplayerRTF
+    public class DisplayerRTFTest
     {
         [TestMethod]
         public void NormalDataIndependent()

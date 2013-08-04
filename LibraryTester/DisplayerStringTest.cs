@@ -10,7 +10,7 @@ using ParserLibrary.Displayer;
 namespace LibraryTester
 {
     [TestClass]
-    public class DisplayerString
+    public class DisplayerStringTest
     {
         [TestMethod]
         public void DisplayWithAffectNext()

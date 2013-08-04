@@ -53,9 +53,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DisplayerRTF.cs" />
-    <Compile Include="DisplayerString.cs" />
-    <Compile Include="FileParserTest.cs" />
+    <Compile Include="DisplayerRTFTest.cs" />
+    <Compile Include="DisplayerStringTest.cs" />
+    <Compile Include="DataDefinitionParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
