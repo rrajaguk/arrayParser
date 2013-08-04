@@ -53,13 +53,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="DisplayerRTF.cs" />
+    <Compile Include="DisplayerString.cs" />
+    <Compile Include="FileParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MultiIMSIInstallParameter\MultiIMSIInstallParameter.csproj">
-      <Project>{28db5c4f-abc4-4304-a4c7-53c1ddef0d14}</Project>
-      <Name>MultiIMSIInstallParameter</Name>
+    <ProjectReference Include="..\ParserLibrary\ParserLibrary.csproj">
+      <Project>{b5201a78-f46a-4498-b186-aceb52e2ed09}</Project>
+      <Name>ParserLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

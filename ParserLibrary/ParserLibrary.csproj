@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ParserLibrary</RootNamespace>
     <AssemblyName>ParserLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,7 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Displayer\Displayer.cs" />
+    <Compile Include="Displayer\RTFDisplayer.cs" />
+    <Compile Include="Displayer\StringDisplayer.cs" />
+    <Compile Include="Item\CompositeValue.cs" />
+    <Compile Include="Item\ItemRepresentate.cs" />
+    <Compile Include="Item\ItemTranslate.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\StreamParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
