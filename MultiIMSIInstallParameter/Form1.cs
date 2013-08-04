@@ -11,26 +11,19 @@ namespace MultiIMSIInstallParameter
 {
     public partial class Form1 : Form
     {
-        private EFInstallParam EFParam;
-        private BufferInstallParam BuffParam;
-        private ApplicationParameter AppParam;
-        private PhysicalFileParser PhysicalParam;
-        private PhysicalFileParser[] ListOfAvailableParser;
+        private PhysicalFileParser[] ListOfAvailableDefinition;
         private RadioButton[] ListOfRadioButton;
-        private Parser pass;
+        private Parser ActiveDefinition;
         private List<Control> ListOfTextBox;
         public Form1()
         {
             InitializeComponent();
-            EFParam = new EFInstallParam();
-            BuffParam = new BufferInstallParam();
-            AppParam = new ApplicationParameter();
             string[] DefFiles = System.IO.Directory.GetFiles(
                 System.IO.Directory.GetCurrentDirectory() + "\\ParamDef\\", "*.param");
             ListOfTextBox = new List<Control>();
             if (DefFiles.Length > 0)
             {
-                ListOfAvailableParser = new PhysicalFileParser[DefFiles.Length];
+                ListOfAvailableDefinition = new PhysicalFileParser[DefFiles.Length];
                 ListOfRadioButton = new RadioButton[DefFiles.Length];
                 int count = 0;
                 foreach (string defFile in DefFiles)
@@ -44,13 +37,11 @@ namespace MultiIMSIInstallParameter
                     currentParserBtn.Size = new System.Drawing.Size(400, 17);
                     this.ParserType.Controls.Add(currentParserBtn);
 
-                    ListOfAvailableParser[count] = currentFileParser;
+                    ListOfAvailableDefinition[count] = currentFileParser;
                     ListOfRadioButton[count] = currentParserBtn;
                     count++;
                 }
             }
-
-            pass = EFParam;
         }
 
         void currentParserBtn_CheckedChanged(object sender, EventArgs e)
@@ -60,11 +51,11 @@ namespace MultiIMSIInstallParameter
             {
                 if (radioButton.Checked)
                 {
-                    pass = ListOfAvailableParser[counter];
+                    ActiveDefinition = ListOfAvailableDefinition[counter];
                 }
                 counter++;
             }
-            generateItemInPanel(pass);
+            generateItemInPanel(ActiveDefinition);
         }
 
         private void generateItemInPanel(Parser pass)
@@ -157,15 +148,15 @@ namespace MultiIMSIInstallParameter
                 {
                     if (radioButton.Checked)
                     {
-                        pass = ListOfAvailableParser[counter];
+                        ActiveDefinition = ListOfAvailableDefinition[counter];
                     }
                     counter++;
                 }
 
                 List<ItemTranslation> data = new List<ItemTranslation>();
-                pass.Parse(LengthChanger.removeLength(textBox1.Text));
+                ActiveDefinition.Parse(LengthChanger.removeLength(textBox1.Text));
                 counter = 0;
-                foreach (ItemRepresentation IT in pass.getItems())
+                foreach (ItemRepresentation IT in ActiveDefinition.getItems())
                 {
                     if (IT.lengthType == ItemRepresentation.LengthType.affectNext)
                     {
@@ -199,7 +190,7 @@ namespace MultiIMSIInstallParameter
         {
             List<string> choppedData = new List<string>();
             StringBuilder sb = new StringBuilder();
-            List<ItemRepresentation> items = pass.getItems();
+            List<ItemRepresentation> items = ActiveDefinition.getItems();
             for (int i = 0; i < items.Count; i++)
             {
                 if (items[i].lengthType == ItemRepresentation.LengthType.affectNext)
@@ -239,7 +230,7 @@ namespace MultiIMSIInstallParameter
                 counter++;
             }
             SB.Append(@"\line ");
-            List<ItemRepresentation> listOfPass = pass.getItems();
+            List<ItemRepresentation> listOfPass = ActiveDefinition.getItems();
             for(int i = 0; i<listOfPass.Count;i++)
             {
                 var item = listOfPass[i];
