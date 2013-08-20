@@ -6,20 +6,21 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using MultiIMSIInstallParameter.Item;
+using ParserLibrary.ItemObject;
 
 namespace MultiIMSIInstallParameter.CustomGui
 {
     public partial class CompositeInput : UserControl
     {
-        private CompositeValue CV;
-        private List<CompositeItem> lisfOfItems;
-        public CompositeInput(CompositeValue CV)
+        private ItemComposite CV;
+        private List<BitItem> lisfOfItems;
+        public CompositeInput(ItemComposite CV)
         {
             InitializeComponent();
             this.CV = CV;
             lisfOfItems = CV.getItems();
             for(int i = 0; i<lisfOfItems .Count;i++ ){
-                CompositeItem currentItem = lisfOfItems[i];
+                BitItem currentItem = lisfOfItems[i];
                 CheckBox CB = new CheckBox();
                 CB.Text = currentItem.name;
                 CB.Name = currentItem.location.ToString();
@@ -37,7 +38,7 @@ namespace MultiIMSIInstallParameter.CustomGui
             short sb = short.Parse(val, System.Globalization.NumberStyles.HexNumber);
             for (int i = 0; i < lisfOfItems.Count; i++)
             {
-                CompositeItem currentItem = lisfOfItems[i];
+                BitItem currentItem = lisfOfItems[i];
                 short interestedBit = (short)( 1 << (currentItem.location -1));
                 if ((sb & interestedBit) == interestedBit  )
                 {

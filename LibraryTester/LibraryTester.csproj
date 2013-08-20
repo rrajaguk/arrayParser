@@ -56,6 +56,8 @@
     <Compile Include="DisplayerRTFTest.cs" />
     <Compile Include="DisplayerStringTest.cs" />
     <Compile Include="DataDefinitionParserTest.cs" />
+    <Compile Include="ItemFactoryTest.cs" />
+    <Compile Include="ItemIndividualTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -163,6 +163,12 @@
     <Content Include="bin\Release\MultiIMSIInstallParameter.exe" />
     <Content Include="bin\Release\MultiIMSIInstallParameter.pdb" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ParserLibrary\ParserLibrary.csproj">
+      <Project>{b5201a78-f46a-4498-b186-aceb52e2ed09}</Project>
+      <Name>ParserLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,13 +7,17 @@ using MultiIMSIInstallParameter.Parsers;
 using MultiIMSIInstallParameter.Item;
 using MultiIMSIInstallParameter.PreParser;
 using MultiIMSIInstallParameter.CustomGui;
+using ParserLibrary.ItemRep;
+using System.IO;
+using ParserLibrary.ItemFactory;
+using ParserLibrary.ItemObject;
 namespace MultiIMSIInstallParameter
 {
     public partial class Form1 : Form
     {
-        private PhysicalFileParser[] ListOfAvailableDefinition;
+        private ItemParser[] ListOfAvailableDefinition;
         private RadioButton[] ListOfRadioButton;
-        private Parser ActiveDefinition;
+        private ItemParser ActiveDefinition;
         private List<Control> ListOfTextBox;
         public Form1()
         {
@@ -23,7 +27,7 @@ namespace MultiIMSIInstallParameter
             ListOfTextBox = new List<Control>();
             if (DefFiles.Length > 0)
             {
-                ListOfAvailableDefinition = new PhysicalFileParser[DefFiles.Length];
+                ListOfAvailableDefinition = new ItemParser[DefFiles.Length];
                 ListOfRadioButton = new RadioButton[DefFiles.Length];
                 int count = 0;
                 foreach (string defFile in DefFiles)
@@ -32,14 +36,18 @@ namespace MultiIMSIInstallParameter
 
                     RadioButton currentParserBtn = new RadioButton();
                     currentParserBtn.CheckedChanged += currentParserBtn_CheckedChanged;
-                    currentParserBtn.Text = currentFileParser.ParserName;
+                    currentParserBtn.Text = Path.GetFileNameWithoutExtension(defFile);
                     currentParserBtn.Location = new System.Drawing.Point(0, (count * 20));
                     currentParserBtn.Size = new System.Drawing.Size(400, 17);
                     this.ParserType.Controls.Add(currentParserBtn);
 
-                    ListOfAvailableDefinition[count] = currentFileParser;
                     ListOfRadioButton[count] = currentParserBtn;
+                    ItemParser currentParser = new ItemParser();
+                    currentParser.setFactory(new NormalItemFactory(new StreamReader(defFile)));
+                    ListOfAvailableDefinition[count] = currentParser;
+
                     count++;
+
                 }
             }
         }
@@ -58,7 +66,7 @@ namespace MultiIMSIInstallParameter
             generateItemInPanel(ActiveDefinition);
         }
 
-        private void generateItemInPanel(Parser pass)
+        private void generateItemInPanel(ItemParser pass)
         {
             int counter_Y = 0;
             int counter_X = 0;
@@ -67,21 +75,21 @@ namespace MultiIMSIInstallParameter
 
             ContainerPanel.Controls.Clear();
             ListOfTextBox.Clear();
-            List<ItemRepresentation> items = pass.getItems();
+            List<ParserLibrary.ItemObject.Item> items = pass.Items;
             //foreach (var item in items)
             for (int i = 0; i < items.Count; i++)
             {
                 Point dividerLocation = new Point();
-                ItemRepresentation item = items[i];
-                if (item.lengthType == ItemRepresentation.LengthType.affectNext)
+                ParserLibrary.ItemObject.Item item = items[i];
+
+                if (!item.canBeDisplayed())
                 {
-                    items[i + 1].ItemLength = 0;
                     continue;
                 }
                 // Label
                 Label lbl = new Label();
                 int numOfLines = 0;
-                lbl.Text = GuiHelper.GuiHelper.chopToLines(item.ItemName, out numOfLines);
+                lbl.Text = GuiHelper.GuiHelper.chopToLines(item.Name, out numOfLines);
                 lbl.Size = new System.Drawing.Size(20, numOfLines * 20);
                 lbl.Location = new System.Drawing.Point((counter_X * 400) + 10, startingOffset_Y);
                 lbl.AutoSize = true;
@@ -90,20 +98,20 @@ namespace MultiIMSIInstallParameter
 
 
                 // Text box
-                if (item.valueType == ItemRepresentation.ValueType.normal)
+                if (item is RegularItem)
                 {
                     TextBox TB = new TextBox();
-                    if (item.ItemLength > 0)
+                    if (item.Length > 0)
                     {
-                        TB.MaxLength = item.ItemLength * 2;
+                        TB.MaxLength = item.Length* 2;
                         TB.Size = new System.Drawing.Size(TB.MaxLength * 9, 23);
                     }
                     else
                     {
                         TB.Size = new System.Drawing.Size(200, 23);
                     }
-                    TB.DataBindings.Add("Text", item, "ItemValue");
-                    TB.DataBindings.Add("Name", item, "ItemName");
+                    TB.DataBindings.Add("Text", item, "Value");
+                    TB.DataBindings.Add("Name", item, "Name");
                     TB.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
                     ContainerPanel.Controls.Add(TB);
                     ListOfTextBox.Add(TB);
@@ -113,11 +121,12 @@ namespace MultiIMSIInstallParameter
                     startingOffset_Y += lbl.Size.Height + 15;
                     dividerLocation = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7);
                 }
-                if (item.valueType == ItemRepresentation.ValueType.composite)
+                if (item is ItemComposite)
                 {
-                    CompositeInput CI = new CompositeInput(item.compositeValues);
+                    ItemComposite currentItem = (item as ItemComposite);
+                    CompositeInput CI = new CompositeInput(currentItem);
                     CI.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
-                    CI.Size = new System.Drawing.Size(200, item.compositeValues.getItems().Count * 20);
+                    CI.Size = new System.Drawing.Size(200, currentItem.getItems().Count * 20);
                     ContainerPanel.Controls.Add(CI);
                     ListOfTextBox.Add(CI);
                     // setting of the next items offset
@@ -154,25 +163,25 @@ namespace MultiIMSIInstallParameter
                 }
 
                 List<ItemTranslation> data = new List<ItemTranslation>();
-                ActiveDefinition.Parse(LengthChanger.removeLength(textBox1.Text));
+              //  ActiveDefinition.Parse(LengthChanger.removeLength(textBox1.Text));
                 counter = 0;
-                foreach (ItemRepresentation IT in ActiveDefinition.getItems())
-                {
-                    if (IT.lengthType == ItemRepresentation.LengthType.affectNext)
-                    {
-                        continue;
-                    }
-                    if (IT.valueType == ItemRepresentation.ValueType.normal)
-                    {
-                        ListOfTextBox[counter].Text = IT.ItemValue;
-                    }
-                    else
-                    {
-                        CompositeInput CI = (CompositeInput)ListOfTextBox[counter];
-                        CI.SetValue(IT.ItemValue);
-                    }
-                    counter++;
-                }
+                //foreach (ItemRepresentation IT in ActiveDefinition.getItems())
+                //{
+                //    if (IT.lengthType == ItemRepresentation.LengthType.affectNext)
+                //    {
+                //        continue;
+                //    }
+                //    if (IT.valueType == ItemRepresentation.ValueType.normal)
+                //    {
+                //        ListOfTextBox[counter].Text = IT.ItemValue;
+                //    }
+                //    else
+                //    {
+                //        CompositeInput CI = (CompositeInput)ListOfTextBox[counter];
+                //        CI.SetValue(IT.ItemValue);
+                //    }
+                //    counter++;
+                //}
             }
             catch (Exception ex)
             {
@@ -190,28 +199,13 @@ namespace MultiIMSIInstallParameter
         {
             List<string> choppedData = new List<string>();
             StringBuilder sb = new StringBuilder();
-            List<ItemRepresentation> items = ActiveDefinition.getItems();
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (items[i].lengthType == ItemRepresentation.LengthType.affectNext)
-                {
-                    i++;
-                    sb.Append((items[i].ItemValue.Length / 2).ToString("X2"));
-                    choppedData.Add((items[i].ItemValue.Length / 2).ToString("X2"));
-                }
-                if (items[i].valueType == ItemRepresentation.ValueType.normal)
-                {
-                    sb.Append(items[i].ItemValue);
-                    choppedData.Add(items[i].ItemValue);
-                    continue;
-                }
-                if (items[i].valueType == ItemRepresentation.ValueType.composite)
-                {
-                    sb.Append(items[i].compositeValues.ToString());
-                    choppedData.Add(items[i].compositeValues.ToString());
-                }
-
-            }
+            List<ParserLibrary.ItemObject.Item> items = ActiveDefinition.Items;
+            foreach (var item in ActiveDefinition.Items)
+	        {
+                        sb.Append(item.Value);
+                        choppedData.Add(item.Value);
+		 
+	        }            
             textBox1.Text = sb.ToString();
             return choppedData.ToArray();
         }
@@ -230,38 +224,38 @@ namespace MultiIMSIInstallParameter
                 counter++;
             }
             SB.Append(@"\line ");
-            List<ItemRepresentation> listOfPass = ActiveDefinition.getItems();
-            for(int i = 0; i<listOfPass.Count;i++)
-            {
-                var item = listOfPass[i];
-                if (item.lengthType == ItemRepresentation.LengthType.affectNext)
-                {
-                    SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
-                    SB.Append((listOfPass[i + 1].ItemValue.Length / 2).ToString("X2") + @"\tab ");
-                    SB.Append(@"\cf1 = ");
-                    SB.Append(item.ItemName + @"\line ");
-                    continue;
-                }
-                if (item.valueType == ItemRepresentation.ValueType.normal)
-                {
-                    SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
-                    SB.Append(item.ItemValue + @"\tab ");
-                    SB.Append(@"\cf1 = ");
-                    SB.Append(item.ItemName + @"\line ");
-                    continue;
-                }
-                if (item.valueType == ItemRepresentation.ValueType.composite)
-                {
-                    SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
-                    SB.Append(item.compositeValues.ToString() + @"\tab ");
-                    SB.Append(@"\cf1 = ");
-                    SB.Append(item.ItemName + @"\line");
-                    foreach (var compositeItem in item.compositeValues.getItems())
-                    {
-                        SB.Append(@"\tab " + compositeItem.name + @"\tab = " + (compositeItem.isChecked ? "activated" : "deactivated") + @"\line ");
-                    }
-                }
-            }
+            //List<ItemRepresentation> listOfPass = ActiveDefinition.getItems();
+            //for(int i = 0; i<listOfPass.Count;i++)
+            //{
+            //    var item = listOfPass[i];
+            //    if (item.lengthType == ItemRepresentation.LengthType.affectNext)
+            //    {
+            //        SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
+            //        SB.Append((listOfPass[i + 1].ItemValue.Length / 2).ToString("X2") + @"\tab ");
+            //        SB.Append(@"\cf1 = ");
+            //        SB.Append(item.ItemName + @"\line ");
+            //        continue;
+            //    }
+            //    if (item.valueType == ItemRepresentation.ValueType.normal)
+            //    {
+            //        SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
+            //        SB.Append(item.ItemValue + @"\tab ");
+            //        SB.Append(@"\cf1 = ");
+            //        SB.Append(item.ItemName + @"\line ");
+            //        continue;
+            //    }
+            //    if (item.valueType == ItemRepresentation.ValueType.composite)
+            //    {
+            //        SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
+            //        SB.Append(item.compositeValues.ToString() + @"\tab ");
+            //        SB.Append(@"\cf1 = ");
+            //        SB.Append(item.ItemName + @"\line");
+            //        foreach (var compositeItem in item.compositeValues.getItems())
+            //        {
+            //            SB.Append(@"\tab " + compositeItem.name + @"\tab = " + (compositeItem.isChecked ? "activated" : "deactivated") + @"\line ");
+            //        }
+            //    }
+            //}
             data.SetText(colorPalet + SB.ToString() + "}", TextDataFormat.Rtf);
             Clipboard.SetDataObject(data);
         }
