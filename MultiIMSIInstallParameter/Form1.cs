@@ -18,13 +18,12 @@ namespace MultiIMSIInstallParameter
         private ItemParser[] ListOfAvailableDefinition;
         private RadioButton[] ListOfRadioButton;
         private ItemParser ActiveDefinition;
-        private List<Control> ListOfTextBox;
+        private Dictionary<string,Control> ListOfTextBox;
         public Form1()
         {
             InitializeComponent();
             string[] DefFiles = System.IO.Directory.GetFiles(
                 System.IO.Directory.GetCurrentDirectory() + "\\ParamDef\\", "*.param");
-            ListOfTextBox = new List<Control>();
             if (DefFiles.Length > 0)
             {
                 ListOfAvailableDefinition = new ItemParser[DefFiles.Length];
@@ -74,8 +73,11 @@ namespace MultiIMSIInstallParameter
             int startingOffset_X = 250;
 
             ContainerPanel.Controls.Clear();
-            ListOfTextBox.Clear();
+            //ListOfTextBox.Clear();
             List<ParserLibrary.ItemObject.Item> items = pass.Items;
+            //clear up the items inside text box
+            
+            ListOfTextBox = new Dictionary<string, Control>();
             //foreach (var item in items)
             for (int i = 0; i < items.Count; i++)
             {
@@ -114,7 +116,7 @@ namespace MultiIMSIInstallParameter
                     TB.DataBindings.Add("Name", item, "Name");
                     TB.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
                     ContainerPanel.Controls.Add(TB);
-                    ListOfTextBox.Add(TB);
+                    ListOfTextBox.Add(item.Name,TB);
                     TB.TextAlign = HorizontalAlignment.Left;
 
                     // setting of the next items offset
@@ -128,7 +130,7 @@ namespace MultiIMSIInstallParameter
                     CI.Location = new System.Drawing.Point(lbl.Location.X + startingOffset_X, lbl.Location.Y - 5);
                     CI.Size = new System.Drawing.Size(200, currentItem.getItems().Count * 20);
                     ContainerPanel.Controls.Add(CI);
-                    ListOfTextBox.Add(CI);
+                    ListOfTextBox.Add(item.Name,CI);
                     // setting of the next items offset
                     startingOffset_Y += CI.Size.Height + 15;
                     dividerLocation = new System.Drawing.Point(lbl.Location.X, lbl.Location.Y + CI.Size.Height);
@@ -162,26 +164,26 @@ namespace MultiIMSIInstallParameter
                     counter++;
                 }
 
-                List<ItemTranslation> data = new List<ItemTranslation>();
-              //  ActiveDefinition.Parse(LengthChanger.removeLength(textBox1.Text));
+               // List<ItemTranslation> data = new List<ItemTranslation>();
+                ActiveDefinition.Parse(LengthChanger.removeLength(textBox1.Text));
                 counter = 0;
-                //foreach (ItemRepresentation IT in ActiveDefinition.getItems())
-                //{
-                //    if (IT.lengthType == ItemRepresentation.LengthType.affectNext)
-                //    {
-                //        continue;
-                //    }
-                //    if (IT.valueType == ItemRepresentation.ValueType.normal)
-                //    {
-                //        ListOfTextBox[counter].Text = IT.ItemValue;
-                //    }
-                //    else
-                //    {
-                //        CompositeInput CI = (CompositeInput)ListOfTextBox[counter];
-                //        CI.SetValue(IT.ItemValue);
-                //    }
-                //    counter++;
-                //}
+                foreach (var IT in ActiveDefinition.Items)
+                {
+                    if (!IT.includedInResult())
+                    {
+                        //continue;
+                    }
+                    if (IT is RegularItem)
+                    {
+                        ListOfTextBox[IT.Name].Text = IT.Value;
+                    }
+                    if (IT is ItemComposite)
+                    {
+                        CompositeInput CI = (CompositeInput)ListOfTextBox[IT.Name];
+                        CI.SetValue(IT.Value);
+                    }
+                    counter++;
+                }
             }
             catch (Exception ex)
             {
