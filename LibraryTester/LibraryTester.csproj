@@ -58,7 +58,9 @@
     <Compile Include="DataDefinitionParserTest.cs" />
     <Compile Include="ItemFactoryTest.cs" />
     <Compile Include="ItemIndividualTest.cs" />
+    <Compile Include="ItemTranslatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ParserLibrary\ParserLibrary.csproj">

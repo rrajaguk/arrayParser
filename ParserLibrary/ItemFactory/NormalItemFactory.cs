@@ -20,20 +20,29 @@ namespace ParserLibrary.ItemFactory
 			Item prev = null;
 
 			string line = " ";
+            int defaultValuePosition;
 			while (line != null)
 			{
+                // setting of default value
+                defaultValuePosition = 3;
+                Item currentItem = null;
+                
 				// do the checking of string
 				line = dataSource.ReadLine();
 				if (line == null)
 					continue;
 				line = line.Trim();
-				// check for comment or empty line
+				
+                // check for comment or empty line
 				if (line.Length <= 0 || line[0] == '#')
 				{
 					continue;
 				}
 
+                // chop the string into several string separated by ',' (comma)
 				string[] lines = line.Split(',');
+
+                // remove the ending and trailing space
 				for(int i = 0;i< lines.Length;i++){
 					lines[i] = lines[i].Trim();
 				}
@@ -48,7 +57,6 @@ namespace ParserLibrary.ItemFactory
 					continue;
 				}
 
-                Item currentItem = null;
                 // check the item type
                 if (lines.Length <= 2)
                 {
@@ -74,12 +82,22 @@ namespace ParserLibrary.ItemFactory
                         case "P":
                             currentItem = new RegularItem();
                             currentItem.setDisplayerDecorator(new Display_OtherItemNotNull(result, lines[3]));
+                            defaultValuePosition = 4;
+                            break;
+                        default :
+                            currentItem = new RegularItem();
+                            defaultValuePosition = 2;
                             break;
 
                     }
                 }
+                // get the default value (in case it exist)
+                if (lines.Length >= defaultValuePosition + 1)
+                {
+                    currentItem.Value = lines[defaultValuePosition];
+                }
 
-                // set the item value
+                // set the item name and length
                 currentItem.Name = lines[0];
                 currentItem.Length = int.Parse(lines[1]);
                 result.Add(currentItem);

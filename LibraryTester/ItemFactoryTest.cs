@@ -25,7 +25,7 @@ namespace LibraryTester
         {
             List<string> val = new List<string> { "composite val,    1  ,C", ">byte 1, 2", ">byte 3, 3" };
 
-            StreamReader testBed = prepareTestDouble(val);
+            StreamReader testBed = TestHelper.prepareTestDouble(val);
             NormalItemFactory normalItemFactory = new NormalItemFactory(testBed);
             List<Item> items =  normalItemFactory.GetItems();
             List<Item> expectedItems = new List<Item>();
@@ -40,7 +40,7 @@ namespace LibraryTester
             expectedItems.Add(IC);
             
             // start asserting;
-            Compare(expectedItems, items);
+            TestHelper.Compare(expectedItems, items);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace LibraryTester
         {
             List<string> val = new List<string> { "two bytes parameter,1 , N", "three bytes parameter ,    3" };
 
-            StreamReader testBed = prepareTestDouble(val);
+            StreamReader testBed = TestHelper.prepareTestDouble(val);
             NormalItemFactory normalItemFactory = new NormalItemFactory(testBed);
             List<Item> res = normalItemFactory.GetItems();
             
@@ -65,7 +65,7 @@ namespace LibraryTester
 
 
             // do the checking
-            Compare(expected, res);            
+            TestHelper.Compare(expected, res);            
         }
         [TestMethod]
         public void Test_NormalItemFactory_OtherItemNull()
@@ -75,7 +75,7 @@ namespace LibraryTester
                 "three bytes parameter ,    3" ,
                 "item affected by prev, 3, P,two bytes parameter  "};
 
-            StreamReader testBed = prepareTestDouble(val);
+            StreamReader testBed = TestHelper.prepareTestDouble(val);
             NormalItemFactory normalItemFactory = new NormalItemFactory(testBed);
             List<Item> res = normalItemFactory.GetItems();
 
@@ -97,7 +97,7 @@ namespace LibraryTester
             expected.Add(ri);
             expected.Add(ri2);
 
-            Compare(expected, res);
+            TestHelper.Compare(expected, res);
 
             // test the last val
             RegularItem RI = (res[2] as RegularItem);
@@ -109,43 +109,6 @@ namespace LibraryTester
             Assert.IsTrue(RI.includedInResult());
         }
 
-        /// <summary>
-        /// preparing the stream reader based on input of list of  string
-        /// </summary>
-        /// <param name="val"></param>
-        /// <returns></returns>
-        private StreamReader prepareTestDouble(List<string> val)
-        {
-            MemoryStream ms = new MemoryStream();
-            StreamWriter sw = new StreamWriter(ms);
-            foreach (var str in val)
-            {
-                sw.WriteLine(str);
-            }
-            sw.Flush();
-            ms.Seek(0, SeekOrigin.Begin);
-            StreamReader sr = new StreamReader(ms);
-            return sr;
-        }
-
-        /// <summary>
-        /// comparing two list of itemrepresentations
-        /// </summary>
-        /// <param name="expected"></param>
-        /// <param name="result"></param>
-        private void Compare(List<Item> expected, List<Item> result)
-        {
-            Assert.AreEqual(expected.Count, result.Count);
-            for (int i = 0; i < expected.Count; i++)
-            {
-                Item currentExpectedItem = expected[i];
-                Item currentResultItem = result[i];
-                Assert.AreEqual(currentExpectedItem.Name, currentResultItem.Name);
-                Assert.AreEqual(currentExpectedItem.Length, currentResultItem.Length);
-                Assert.AreEqual(currentExpectedItem.Value, currentResultItem.Value);
-                Assert.AreEqual(currentExpectedItem.includedInResult(), currentResultItem.includedInResult());
-
-            }
-        }
+       
     }
 }

@@ -150,7 +150,7 @@ namespace MultiIMSIInstallParameter
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void TranslateButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace MultiIMSIInstallParameter
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void RenerateButton_Click(object sender, EventArgs e)
         {
             RegerateData();
         }
@@ -212,7 +212,7 @@ namespace MultiIMSIInstallParameter
             return choppedData.ToArray();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void ClipboardButton_Click(object sender, EventArgs e)
         {
             String[] choppedData =  RegerateData();
             var data = new DataObject();

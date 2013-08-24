@@ -26,6 +26,7 @@ namespace ParserLibrary.ItemObject
             displayDecorator = disp;
         }
 
+        [Obsolete("will be obseleted soon")]
         public virtual bool canBeDisplayed()
         {
             return true;
@@ -40,5 +41,13 @@ namespace ParserLibrary.ItemObject
 
             return displayDecorator.includedInResult();
         }
+
+        public virtual int fecthValue(string val, int startingPosition)
+        {
+            Value = val.Substring(startingPosition, Length * 2);
+            return startingPosition + Length * 2;
+        }
+
+
     }
 }

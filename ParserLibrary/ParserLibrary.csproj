@@ -58,6 +58,8 @@
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\StreamDataDefinitionParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TranslateFactory\StringTranslator.cs" />
+    <Compile Include="TranslateFactory\TranslateFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
