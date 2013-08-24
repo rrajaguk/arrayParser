@@ -40,16 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Decorator\DisplayDecorator.cs" />
-    <Compile Include="Decorator\Display_OtherItemNotNull.cs" />
     <Compile Include="Displayer\Displayer.cs" />
     <Compile Include="Displayer\RTFDisplayer.cs" />
     <Compile Include="Displayer\StringDisplayer.cs" />
     <Compile Include="Factory_Item\ItemFactory.cs" />
     <Compile Include="Factory_Item\NormalItemFactory.cs" />
+    <Compile Include="ItemObject\Decorator\ItemDecorator.cs" />
     <Compile Include="ItemObject\ItemComposite.cs" />
     <Compile Include="ItemObject\ItemValueAffectedNextItemLength.cs" />
-    <Compile Include="ItemObject\OtherItemNotNull_Decorator.cs" />
+    <Compile Include="ItemObject\Decorator\OtherItemNotNull_Decorator.cs" />
     <Compile Include="ItemObject\RegularItem.cs" />
     <Compile Include="ItemRep\ItemParser.cs" />
     <Compile Include="Item\CompositeValue.cs" />

@@ -11,6 +11,8 @@ using ParserLibrary.ItemRep;
 using System.IO;
 using ParserLibrary.ItemFactory;
 using ParserLibrary.ItemObject;
+using ParserLibrary.TranslateFactory;
+using ParserLibrary.ItemObject.Decorator;
 namespace MultiIMSIInstallParameter
 {
     public partial class Form1 : Form
@@ -97,10 +99,13 @@ namespace MultiIMSIInstallParameter
                 lbl.AutoSize = true;
                 ContainerPanel.Controls.Add(lbl);
 
-
-
+                ParserLibrary.ItemObject.Item basicForm = item;
+                if (basicForm is ItemDecorator)
+                {
+                    basicForm = (item as ItemDecorator).getBaseClass();
+                }
                 // Text box
-                if (item is RegularItem)
+                if (basicForm is RegularItem)
                 {
                     TextBox TB = new TextBox();
                     if (item.Length > 0)
@@ -123,7 +128,7 @@ namespace MultiIMSIInstallParameter
                     startingOffset_Y += lbl.Size.Height + 15;
                     dividerLocation = new Point(lbl.Location.X, lbl.Location.Y + lbl.Size.Height + 7);
                 }
-                if (item is ItemComposite)
+                if (basicForm is ItemComposite)
                 {
                     ItemComposite currentItem = (item as ItemComposite);
                     CompositeInput CI = new CompositeInput(currentItem);
@@ -149,7 +154,7 @@ namespace MultiIMSIInstallParameter
 
 
         }
-
+        private StringTranslator DefaultStringTranslator = new StringTranslator();
         private void TranslateButton_Click(object sender, EventArgs e)
         {
             try
@@ -164,22 +169,29 @@ namespace MultiIMSIInstallParameter
                     counter++;
                 }
 
-               // List<ItemTranslation> data = new List<ItemTranslation>();
-                ActiveDefinition.Parse(LengthChanger.removeLength(textBox1.Text));
+                ActiveDefinition.setTranslator(DefaultStringTranslator);
+                DefaultStringTranslator.setValue(textBox1.Text);
+                DefaultStringTranslator.Import();
                 counter = 0;
                 foreach (var IT in ActiveDefinition.Items)
                 {
-                     if (IT is RegularItem)
+                    ParserLibrary.ItemObject.Item basicForm = IT;
+                    if (basicForm is ItemDecorator)
+                    {
+                        basicForm = (IT as ItemDecorator).getBaseClass();
+                    }
+                    if (basicForm is RegularItem)
                     {
                         ListOfTextBox[IT.Name].Text = IT.Value;
                     }
-                    if (IT is ItemComposite)
+                    if (basicForm is ItemComposite)
                     {
                         CompositeInput CI = (CompositeInput)ListOfTextBox[IT.Name];
                         CI.SetValue(IT.Value);
                     }
                     counter++;
                 }
+                
             }
             catch (Exception ex)
             {

@@ -7,7 +7,7 @@ using ParserLibrary.ItemFactory;
 using System.IO;
 using ParserLibrary.ItemObject;
 using MultiIMSIInstallParameter.Item;
-using ParserLibrary.Decorator;
+using ParserLibrary.ItemObject.Decorator;
 
 namespace LibraryTester
 {

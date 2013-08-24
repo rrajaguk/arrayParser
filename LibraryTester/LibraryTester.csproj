@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DisplayerRTFTest.cs" />
+    <Compile Include="ItemDecoratorTest.cs" />
     <Compile Include="ItemFactoryTest.cs" />
     <Compile Include="ItemIndividualTest.cs" />
     <Compile Include="ItemTranslatorTest.cs" />

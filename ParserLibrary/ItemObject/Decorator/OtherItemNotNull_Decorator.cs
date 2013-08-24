@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ParserLibrary.ItemObject
+namespace ParserLibrary.ItemObject.Decorator
 {
-    public class OtherItemNotNull_Decorator : Item
+    public class OtherItemNotNull_Decorator : ItemDecorator
     {
-        private Item decoratedItem;
         private Item DependItem;
-        public OtherItemNotNull_Decorator(Item basicItem,Item DependItem)
+        public OtherItemNotNull_Decorator(Item basicItem,Item DependItem): base(basicItem)
         {
             this.decoratedItem = basicItem;
             this.DependItem = DependItem;
@@ -25,10 +24,14 @@ namespace ParserLibrary.ItemObject
             }
             return decoratedItem.Value;
         }
-
-        protected override void setValue(string val)
+        
+        public override int fecthValue(string val, int startingPosition)
         {
-            decoratedItem.Value = val;
+            if (DependItem.Value != "00")
+            {
+                return decoratedItem.fecthValue(val, startingPosition);
+            }
+            return startingPosition;
         }
     }
 }

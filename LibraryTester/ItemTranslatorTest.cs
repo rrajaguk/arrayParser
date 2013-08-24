@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ParserLibrary.ItemFactory;
 using ParserLibrary.ItemObject;
+using ParserLibrary.ItemObject.Decorator;
 using ParserLibrary.ItemRep;
 using ParserLibrary.TranslateFactory;
 

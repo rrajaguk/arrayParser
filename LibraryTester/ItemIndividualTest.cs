@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ParserLibrary.ItemObject;
-using ParserLibrary.Decorator;
+using ParserLibrary.ItemObject.Decorator;
 
 namespace LibraryTester
 {

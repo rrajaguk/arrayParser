@@ -30,7 +30,9 @@ namespace ParserLibrary.ItemObject
                 return "00";
             }
             //countedItem.Length = countedItem.Value.Length;
-            return (countedItem.Length ).ToString("X2");
+            
+            //return (countedItem.Length ).ToString("X2");
+            return (countedItem.Value.Length / 2).ToString("X2");
         }
 
         protected override void setValue(string val)

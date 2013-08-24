@@ -46,7 +46,14 @@ namespace ParserLibrary.ItemObject
 
         protected override void setValue(string val)
         {
-            // TODO
+            short sb = short.Parse(val, System.Globalization.NumberStyles.HexNumber);
+            for (int i = 0; i < Items.Count; i++)
+            {
+                BitItem currentItem = Items[i];
+                short interestedBit = (short)(1 << (currentItem.location - 1));
+                currentItem.isChecked = ((sb & interestedBit) == interestedBit);
+                
+            }
         }
 
     }

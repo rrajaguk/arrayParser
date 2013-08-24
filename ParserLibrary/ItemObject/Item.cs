@@ -1,13 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ParserLibrary.Decorator;
 
 namespace ParserLibrary.ItemObject
 {
     public abstract class Item
     {
-        public string Name { get; set; }
+        private string _name;
+        public string Name {
+            get { return getName(); }
+            set { setName(value); } 
+        }
+
+        protected virtual void setName(string value)
+        {
+            _name = value;
+        }
+
+        protected virtual string getName()
+        {
+            return _name;
+        }
         public int Length { 
             get { return getLength(); } 
             set { setLength(value); } }
@@ -30,9 +43,7 @@ namespace ParserLibrary.ItemObject
 
         protected  abstract string getValue();
         protected abstract void setValue(string val);
-        
 
-       
 
         [Obsolete("will be obseleted soon")]
         public virtual bool canBeDisplayed()

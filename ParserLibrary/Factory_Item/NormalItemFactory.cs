@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using ParserLibrary.Decorator;
 using ParserLibrary.ItemObject;
+using ParserLibrary.ItemObject.Decorator;
 
 namespace ParserLibrary.ItemFactory
 {

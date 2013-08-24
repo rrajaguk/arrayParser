@@ -12,7 +12,7 @@ this parameter store the length of the next parameter, 1, N
 # need to put a dummy value as a length
 
 #1122021122030F
-the length of this data is stored on previous part, 5
+the length of this data is stored on previous part,16
 
 this is composite,1,C
 >byte 1 asd asd a clear gogogn, 1
@@ -25,3 +25,12 @@ this is composite 2,1,C
 >byte 2, 2
 >byte 3, 3
 >byte 4, 4
+
+ola,1
+
+this depend on ola, 1,RP,ola
+
+oge,2
+
+# test data
+#11220222330C0002012222
