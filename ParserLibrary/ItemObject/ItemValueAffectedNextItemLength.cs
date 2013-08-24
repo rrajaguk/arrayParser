@@ -35,6 +35,11 @@ namespace ParserLibrary.ItemObject
             return (countedItem.Value.Length / 2).ToString("X2");
         }
 
+        public override bool canBeDisplayed()
+        {
+            return false;
+        }
+
         protected override void setValue(string val)
         {
             if (countedItem != null)

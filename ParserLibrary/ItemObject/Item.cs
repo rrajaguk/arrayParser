@@ -45,12 +45,10 @@ namespace ParserLibrary.ItemObject
         protected abstract void setValue(string val);
 
 
-        [Obsolete("will be obseleted soon")]
         public virtual bool canBeDisplayed()
         {
             return true;
-        }
-        
+        }        
 
         public virtual int fecthValue(string val, int startingPosition)
         {
