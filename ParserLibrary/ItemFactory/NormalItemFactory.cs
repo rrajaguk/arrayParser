@@ -59,15 +59,10 @@ namespace ParserLibrary.ItemFactory
 					continue;
 				}
 
-                // check the item type
+                // if there is no type provided then create a regular item
                 if (lines.Length <= 2)
                 {
                     currentItem = new RegularItem();
-                //    if (prev != null && (prev is ItemValueAffectedNextItemLength))
-                //    {
-                //        (prev as ItemValueAffectedNextItemLength).setAffectedItem((RegularItem)currentItem);
-                //    }
-                //    prev = null;
                 }
                 else
                 {
@@ -94,7 +89,6 @@ namespace ParserLibrary.ItemFactory
                         switch (lines[2][1])
                         {
                             case 'P' :
-
                                 currentItem = new OtherItemNotNull_Decorator(currentItem,findItem(result, lines[3]));
                                 defaultValuePosition++;
                                 break;
@@ -123,8 +117,8 @@ namespace ParserLibrary.ItemFactory
                     if (prev is ItemValueAffectedNextItemLength)
                     {
                         (prev as ItemValueAffectedNextItemLength).setAffectedItem((RegularItem)currentItem);
+                        prevTemp = null;
                     }
-                    prevTemp = null;
                 }
                 prev = prevTemp;
 

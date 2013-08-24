@@ -73,9 +73,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GuiHelper\GuiHelper.cs" />
-    <Compile Include="Item\CompositeValue.cs" />
-    <Compile Include="Item\ItemRepresentate.cs" />
-    <Compile Include="Item\ItemTranslate.cs" />
     <Compile Include="Parsers\ApplicationParameter.cs" />
     <Compile Include="Parsers\BufferInstallParam.cs" />
     <Compile Include="Parsers\EFInstallParam.cs" />

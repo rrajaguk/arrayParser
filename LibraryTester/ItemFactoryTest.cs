@@ -23,22 +23,32 @@ namespace LibraryTester
         [TestMethod]
         public void Test_NormalItemFactory_CompositeData()
         {
-            List<string> val = new List<string> { "composite val,    1  ,C", ">byte 1, 2", ">byte 3, 3" };
+            List<string> val = new List<string> { "composite val,    1  ,C", ">byte 1, 2", ">byte 3, 3" ,
+            "composite val 2,    1  ,C", ">byte 1, 2", ">byte 3, 3" };
 
             StreamReader testBed = TestHelper.prepareTestDouble(val);
             NormalItemFactory normalItemFactory = new NormalItemFactory(testBed);
             List<Item> items =  normalItemFactory.GetItems();
             List<Item> expectedItems = new List<Item>();
+            
             var IC = new ItemComposite();
             IC.Length = 1;
             IC.Name = "composite val";
-
             BitItem BI1 = new BitItem() { isChecked = false, location = 2, name = "byte 1" };
             BitItem BI2 = new BitItem() { isChecked = false, location = 2, name = "byte 1" };
             IC.addBitItem(BI1);
             IC.addBitItem(BI2);
             expectedItems.Add(IC);
-            
+
+            var IC2 = new ItemComposite();
+            IC2.Length = 1;
+            IC2.Name = "composite val 2";
+            BitItem BI2_1 = new BitItem() { isChecked = false, location = 2, name = "byte 1" };
+            BitItem BI2_2 = new BitItem() { isChecked = false, location = 2, name = "byte 1" };
+            IC.addBitItem(BI2_1);
+            IC.addBitItem(BI2_2);
+            expectedItems.Add(IC2);
+
             // start asserting;
             TestHelper.Compare(expectedItems, items);
         }
