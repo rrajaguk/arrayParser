@@ -11,6 +11,14 @@ namespace ParserLibrary.ItemObject
         public void setAffectedItem(RegularItem RI){
             countedItem = RI;
         }
+        protected override int getLength()
+        {
+            return 1;
+        }
+        protected override void setLength(int val)
+        {
+            // do nothing
+        }
         protected override string getValue()
         {
             if (countedItem == null)
@@ -21,12 +29,17 @@ namespace ParserLibrary.ItemObject
             {
                 return "00";
             }
-            return (countedItem.Value.Length / 2).ToString("X2");
+            //countedItem.Length = countedItem.Value.Length;
+            return (countedItem.Length ).ToString("X2");
         }
 
         protected override void setValue(string val)
         {
-            // didn't do anything
+            if (countedItem != null)
+            {
+                // set the affected item length, but keep it;s own length
+                countedItem.Length = Convert.ToInt32(val, 16);
+            }
         }
 
         public override bool canBeDisplayed()

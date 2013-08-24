@@ -20,6 +20,7 @@ namespace LibraryTester
             RegularItem Reg = new RegularItem();
             Reg.Name = "test";
             Reg.Value = "002222";
+            Reg.Length = 3;
             ItemValueAffectedNextItemLength affectNext = new ItemValueAffectedNextItemLength();
             affectNext.setAffectedItem(Reg);
             affectNext.Name = "Length";

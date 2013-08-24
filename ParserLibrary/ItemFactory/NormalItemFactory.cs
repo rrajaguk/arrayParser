@@ -18,6 +18,7 @@ namespace ParserLibrary.ItemFactory
 		{
             List<Item> result = new List<Item>();
 			Item prev = null;
+            Item prevTemp = null;
 
 			string line = " ";
             int defaultValuePosition;
@@ -26,6 +27,7 @@ namespace ParserLibrary.ItemFactory
                 // setting of default value
                 defaultValuePosition = 3;
                 Item currentItem = null;
+                prevTemp = null;
                 
 				// do the checking of string
 				line = dataSource.ReadLine();
@@ -61,11 +63,11 @@ namespace ParserLibrary.ItemFactory
                 if (lines.Length <= 2)
                 {
                     currentItem = new RegularItem();
-                    if (prev != null && (prev is ItemValueAffectedNextItemLength))
-                    {
-                        (prev as ItemValueAffectedNextItemLength).setAffectedItem((RegularItem)currentItem);
-                    }
-                    prev = null;
+                //    if (prev != null && (prev is ItemValueAffectedNextItemLength))
+                //    {
+                //        (prev as ItemValueAffectedNextItemLength).setAffectedItem((RegularItem)currentItem);
+                //    }
+                //    prev = null;
                 }
                 else
                 {
@@ -73,11 +75,11 @@ namespace ParserLibrary.ItemFactory
                     {
                         case "N":
                             currentItem = new ItemValueAffectedNextItemLength();
-                            prev = currentItem;
+                            prevTemp = currentItem;
                             break;
                         case "C":
                             currentItem = new ItemComposite();
-                            prev = (ItemComposite)currentItem;
+                            prevTemp= (ItemComposite)currentItem;
                             break;
                         case "P":
                             currentItem = new RegularItem();
@@ -101,6 +103,18 @@ namespace ParserLibrary.ItemFactory
                 currentItem.Name = lines[0];
                 currentItem.Length = int.Parse(lines[1]);
                 result.Add(currentItem);
+
+
+                // set the relationship
+                if (prev != null)
+                {
+                    if (prev is ItemValueAffectedNextItemLength)
+                    {
+                        (prev as ItemValueAffectedNextItemLength).setAffectedItem((RegularItem)currentItem);
+                    }
+                    prevTemp = null;
+                }
+                prev = prevTemp;
 
 			}
 			return result;
