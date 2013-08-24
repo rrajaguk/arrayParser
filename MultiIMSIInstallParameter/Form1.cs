@@ -169,11 +169,7 @@ namespace MultiIMSIInstallParameter
                 counter = 0;
                 foreach (var IT in ActiveDefinition.Items)
                 {
-                    if (!IT.includedInResult())
-                    {
-                        //continue;
-                    }
-                    if (IT is RegularItem)
+                     if (IT is RegularItem)
                     {
                         ListOfTextBox[IT.Name].Text = IT.Value;
                     }

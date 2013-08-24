@@ -26,8 +26,6 @@ namespace LibraryTester
             affectNext.Name = "Length";
 
             Assert.AreEqual("03", affectNext.Value );
-            Assert.AreEqual(false, affectNext.canBeDisplayed());
-            Assert.AreEqual(true, affectNext.includedInResult());
         }
 
         [TestMethod]
@@ -39,8 +37,6 @@ namespace LibraryTester
             CI.addBitItem(new BitItem() { isChecked = true, location = 4, name = "bit 4" });
 
             Assert.AreEqual("0C", CI.Value);
-            Assert.AreEqual(true, CI.canBeDisplayed());
-            Assert.AreEqual(true, CI.includedInResult());
         }
 
         [TestMethod]
@@ -55,11 +51,12 @@ namespace LibraryTester
             RegularItem regDepend = new RegularItem();
             regDepend.Name = "depend";
             regDepend.Value = "0000";
-            regDepend.setDisplayerDecorator(new Display_OtherItemNotNull(listOfItems, "affect"));
-            listOfItems.Add(regDepend);
 
-            Assert.AreEqual(false, regDepend.includedInResult());
-            Assert.AreEqual(true, regDepend.canBeDisplayed());
+            OtherItemNotNull_Decorator dec = new OtherItemNotNull_Decorator(regDepend, reg);
+            listOfItems.Add(dec);
+
+            // verify that the value empty since the affect value is 00
+            Assert.AreEqual(string.Empty, dec.Value);
         }
         [TestMethod]
         public void Test_Display_otherItemNotNull_FindItemValue()
@@ -73,11 +70,15 @@ namespace LibraryTester
             RegularItem regDepend = new RegularItem();
             regDepend.Name = "depend";
             regDepend.Value = "0000";
-            regDepend.setDisplayerDecorator(new Display_OtherItemNotNull(listOfItems, "affect"));
-            listOfItems.Add(regDepend);
 
-            Assert.AreEqual(true, regDepend.includedInResult());
-            Assert.AreEqual(true, regDepend.canBeDisplayed());
+
+            OtherItemNotNull_Decorator dec = new OtherItemNotNull_Decorator(regDepend, reg);
+            listOfItems.Add(dec);
+
+            // verify that the value empty since the affect value is 00
+            Assert.AreEqual("0000", dec.Value);
+
+        
         }
     }
 }

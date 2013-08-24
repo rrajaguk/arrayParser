@@ -71,9 +71,8 @@ namespace LibraryTester
         public void Test_NormalItemFactory_OtherItemNull()
         {
             List<string> val = new List<string> { 
-                "two bytes parameter,1 , N", 
-                "three bytes parameter ,    3" ,
-                "item affected by prev, 3, P,two bytes parameter  "};
+                "two bytes parameter,1", 
+                "item affected by prev, 3, RP,two bytes parameter  "};
 
             StreamReader testBed = TestHelper.prepareTestDouble(val);
             NormalItemFactory normalItemFactory = new NormalItemFactory(testBed);
@@ -81,32 +80,25 @@ namespace LibraryTester
 
             List<Item> expected = new List<Item>();
             RegularItem ri = new RegularItem();
-            ri.Name = "three bytes parameter";
-            ri.Length = 3;
-            ItemValueAffectedNextItemLength prev = new ItemValueAffectedNextItemLength();
-            prev.setAffectedItem(ri);
-            prev.Name = "two bytes parameter";
-            prev.Length = 1;
+            ri.Name = "two bytes parameter";
+            ri.Length = 1;
+            ri.Value = "00";
 
             RegularItem ri2= new RegularItem();
             ri2.Name = "item affected by prev";
             ri2.Length = 3;
-            ri2.setDisplayerDecorator(new Display_OtherItemNotNull(expected, prev.Name));
+            ri2.Value = "002233";
+            OtherItemNotNull_Decorator decorator = new OtherItemNotNull_Decorator(ri2, ri);
 
-            expected.Add(prev);
             expected.Add(ri);
-            expected.Add(ri2);
+            expected.Add(decorator);
 
-            TestHelper.Compare(expected, res);
+           // test the value of decorator is null
+            Assert.AreEqual(string.Empty, decorator.Value);
 
-            // test the last val
-            RegularItem RI = (res[2] as RegularItem);
-            Assert.IsFalse(RI.includedInResult());
-
-
-            Item RI_controller = (res[1] as Item);
-            RI_controller.Value = "02";
-            Assert.IsTrue(RI.includedInResult());
+            // test the value of decorator is not null since there is a value on RI
+            ri.Value = "01";
+            Assert.AreEqual("002233",decorator.Value);
         }
 
        

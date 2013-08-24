@@ -49,6 +49,7 @@
     <Compile Include="ItemFactory\NormalItemFactory.cs" />
     <Compile Include="ItemObject\ItemComposite.cs" />
     <Compile Include="ItemObject\ItemValueAffectedNextItemLength.cs" />
+    <Compile Include="ItemObject\OtherItemNotNull_Decorator.cs" />
     <Compile Include="ItemObject\RegularItem.cs" />
     <Compile Include="ItemRep\ItemParser.cs" />
     <Compile Include="Item\CompositeValue.cs" />

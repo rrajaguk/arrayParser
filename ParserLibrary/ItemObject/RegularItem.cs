@@ -17,9 +17,5 @@ namespace ParserLibrary.ItemObject
             value = val;
         }
 
-        public override bool canBeDisplayed()
-        {
-            return true;
-        }
     }
 }

@@ -42,9 +42,5 @@ namespace ParserLibrary.ItemObject
             }
         }
 
-        public override bool canBeDisplayed()
-        {
-            return false;
-        }
     }
 }

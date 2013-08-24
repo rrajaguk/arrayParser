@@ -17,8 +17,7 @@ namespace ParserLibrary.ItemObject
             set { setValue(value); }
         }
 
-        private DisplayDecorator displayDecorator;
-
+        
         private int length;
         protected virtual int getLength()
         {
@@ -33,26 +32,14 @@ namespace ParserLibrary.ItemObject
         protected abstract void setValue(string val);
         
 
-        public void setDisplayerDecorator( DisplayDecorator disp)
-        {
-            displayDecorator = disp;
-        }
+       
 
         [Obsolete("will be obseleted soon")]
         public virtual bool canBeDisplayed()
         {
             return true;
         }
-        public bool includedInResult()
-        {
-
-            if (displayDecorator == null)
-            {
-                return true;
-            }
-
-            return displayDecorator.includedInResult();
-        }
+        
 
         public virtual int fecthValue(string val, int startingPosition)
         {

@@ -71,28 +71,40 @@ namespace ParserLibrary.ItemFactory
                 }
                 else
                 {
-                    switch (lines[2].ToUpper())
+                     // build the basic type based on first character
+                    switch (lines[2].ToUpper()[0])
                     {
-                        case "N":
+                        case 'N':
                             currentItem = new ItemValueAffectedNextItemLength();
                             prevTemp = currentItem;
                             break;
-                        case "C":
+                        case 'C':
                             currentItem = new ItemComposite();
                             prevTemp= (ItemComposite)currentItem;
                             break;
-                        case "P":
-                            currentItem = new RegularItem();
-                            currentItem.setDisplayerDecorator(new Display_OtherItemNotNull(result, lines[3]));
-                            defaultValuePosition = 4;
-                            break;
+                        case 'R':
                         default :
                             currentItem = new RegularItem();
-                            defaultValuePosition = 2;
                             break;
-
                     }
+
+                    // build the decorator
+                    if (lines[2].Length > 1)
+                    {
+                        switch (lines[2][1])
+                        {
+                            case 'P' :
+
+                                currentItem = new OtherItemNotNull_Decorator(currentItem,findItem(result, lines[3]));
+                                defaultValuePosition++;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
                 }
+
                 // get the default value (in case it exist)
                 if (lines.Length >= defaultValuePosition + 1)
                 {
@@ -119,5 +131,15 @@ namespace ParserLibrary.ItemFactory
 			}
 			return result;
 		}
+
+        private Item findItem(List<Item> result, string p)
+        {
+            foreach (var item in result)
+            {
+                if (item.Name == p)
+                    return item;
+            }
+            return null;
+        }
 	}
 }

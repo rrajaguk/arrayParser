@@ -44,7 +44,6 @@ namespace LibraryTester
                 Assert.AreEqual(currentExpectedItem.Name, currentResultItem.Name);
                 Assert.AreEqual(currentExpectedItem.Length, currentResultItem.Length);
                 Assert.AreEqual(currentExpectedItem.Value, currentResultItem.Value);
-                Assert.AreEqual(currentExpectedItem.includedInResult(), currentResultItem.includedInResult());
 
             }
         }
