@@ -39,46 +39,6 @@ namespace LibraryTester
             Assert.AreEqual("0C", CI.Value);
         }
 
-        [TestMethod]
-        public void Test_Display_otherItemNotNull_FindItemZero()
-        {
-            List<Item> listOfItems = new List<Item>();
-            RegularItem reg = new RegularItem();
-            reg.Name = "affect";
-            reg.Value = "00";
-            listOfItems.Add(reg);
-
-            RegularItem regDepend = new RegularItem();
-            regDepend.Name = "depend";
-            regDepend.Value = "0000";
-
-            OtherItemNotNull_Decorator dec = new OtherItemNotNull_Decorator(regDepend, reg);
-            listOfItems.Add(dec);
-
-            // verify that the value empty since the affect value is 00
-            Assert.AreEqual(string.Empty, dec.Value);
-        }
-        [TestMethod]
-        public void Test_Display_otherItemNotNull_FindItemValue()
-        {
-            List<Item> listOfItems = new List<Item>();
-            RegularItem reg = new RegularItem();
-            reg.Name = "affect";
-            reg.Value = "01";
-            listOfItems.Add(reg);
-
-            RegularItem regDepend = new RegularItem();
-            regDepend.Name = "depend";
-            regDepend.Value = "0000";
-
-
-            OtherItemNotNull_Decorator dec = new OtherItemNotNull_Decorator(regDepend, reg);
-            listOfItems.Add(dec);
-
-            // verify that the value empty since the affect value is 00
-            Assert.AreEqual("0000", dec.Value);
-
-        
-        }
+       
     }
 }
