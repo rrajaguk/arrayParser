@@ -10,7 +10,7 @@ namespace ParserLibrary.TranslateFactory
        
         private string operatedValue= string.Empty;
         public void setValue(string val){
-            operatedValue = val;
+            operatedValue = Utility.LengthChanger.removeLength(val);
         }
         public string getValue()
         {

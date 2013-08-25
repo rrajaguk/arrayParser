@@ -60,6 +60,7 @@
     <Compile Include="String_Translator_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="Utility_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ParserLibrary\ParserLibrary.csproj">

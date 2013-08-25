@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MultiIMSIInstallParameter.PreParser
+namespace ParserLibrary.Utility
 {
     public class LengthChanger
     {
@@ -18,7 +18,7 @@ namespace MultiIMSIInstallParameter.PreParser
             for (int i = 0; i < val.Length; i++)
             {
                 string temp = null;
-                if (i + 2 < val.Length)
+                if (i + 2 <= val.Length)
                 {
                     temp = val.Substring(i, 2);
                 }
