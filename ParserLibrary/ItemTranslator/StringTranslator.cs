@@ -5,7 +5,7 @@ using ParserLibrary.ItemRep;
 
 namespace ParserLibrary.TranslateFactory
 {
-    public class StringTranslator  : TranslateFactory
+    public class StringTranslator  : Translater
     {
        
         private string operatedValue= string.Empty;

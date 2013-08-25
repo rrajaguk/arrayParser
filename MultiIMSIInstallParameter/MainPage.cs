@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using MultiIMSIInstallParameter.Parsers;
-using MultiIMSIInstallParameter.Item;
 using MultiIMSIInstallParameter.PreParser;
 using MultiIMSIInstallParameter.CustomGui;
 using ParserLibrary.ItemRep;
@@ -15,13 +13,13 @@ using ParserLibrary.TranslateFactory;
 using ParserLibrary.ItemObject.Decorator;
 namespace MultiIMSIInstallParameter
 {
-    public partial class Form1 : Form
+    public partial class MainPage : Form
     {
         private ItemParser[] ListOfAvailableDefinition;
         private RadioButton[] ListOfRadioButton;
         private ItemParser ActiveDefinition;
         private Dictionary<string,Control> ListOfTextBox;
-        public Form1()
+        public MainPage()
         {
             InitializeComponent();
             string[] DefFiles = System.IO.Directory.GetFiles(
@@ -33,7 +31,6 @@ namespace MultiIMSIInstallParameter
                 int count = 0;
                 foreach (string defFile in DefFiles)
                 {
-                    PhysicalFileParser currentFileParser = new PhysicalFileParser(defFile);
 
                     RadioButton currentParserBtn = new RadioButton();
                     currentParserBtn.CheckedChanged += currentParserBtn_CheckedChanged;
@@ -155,6 +152,7 @@ namespace MultiIMSIInstallParameter
 
         }
         private StringTranslator DefaultStringTranslator = new StringTranslator();
+        
         private void TranslateButton_Click(object sender, EventArgs e)
         {
             try
@@ -202,71 +200,20 @@ namespace MultiIMSIInstallParameter
 
         private void RenerateButton_Click(object sender, EventArgs e)
         {
-            RegerateData();
+            ActiveDefinition.setTranslator(DefaultStringTranslator);
+            DefaultStringTranslator.Export();
+            textBox1.Text = DefaultStringTranslator.getValue();
         }
 
-        private string[] RegerateData()
-        {
-            List<string> choppedData = new List<string>();
-            StringBuilder sb = new StringBuilder();
-            List<ParserLibrary.ItemObject.Item> items = ActiveDefinition.Items;
-            foreach (var item in ActiveDefinition.Items)
-	        {
-                        sb.Append(item.Value);
-                        choppedData.Add(item.Value);
-		 
-	        }            
-            textBox1.Text = sb.ToString();
-            return choppedData.ToArray();
-        }
-
+      
         private void ClipboardButton_Click(object sender, EventArgs e)
         {
-            String[] choppedData =  RegerateData();
             var data = new DataObject();
-            // setting of color pallet
-            var colorPalet = @"{\rtf1\ansi\deff0{\colortbl;\red0\green0\blue0;\red255\green0\blue0;}";
-            StringBuilder SB = new StringBuilder();
-            int counter = 0;
-            foreach (var item in choppedData)
-            {
-                SB.Append(((counter % 2 == 0) ? @"\cf1" : @"\cf2" )+ " " + item);
-                counter++;
-            }
-            SB.Append(@"\line ");
-            //List<ItemRepresentation> listOfPass = ActiveDefinition.getItems();
-            //for(int i = 0; i<listOfPass.Count;i++)
-            //{
-            //    var item = listOfPass[i];
-            //    if (item.lengthType == ItemRepresentation.LengthType.affectNext)
-            //    {
-            //        SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
-            //        SB.Append((listOfPass[i + 1].ItemValue.Length / 2).ToString("X2") + @"\tab ");
-            //        SB.Append(@"\cf1 = ");
-            //        SB.Append(item.ItemName + @"\line ");
-            //        continue;
-            //    }
-            //    if (item.valueType == ItemRepresentation.ValueType.normal)
-            //    {
-            //        SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
-            //        SB.Append(item.ItemValue + @"\tab ");
-            //        SB.Append(@"\cf1 = ");
-            //        SB.Append(item.ItemName + @"\line ");
-            //        continue;
-            //    }
-            //    if (item.valueType == ItemRepresentation.ValueType.composite)
-            //    {
-            //        SB.Append(((i % 2 == 0) ? @"\cf1" : @"\cf2") + " ");
-            //        SB.Append(item.compositeValues.ToString() + @"\tab ");
-            //        SB.Append(@"\cf1 = ");
-            //        SB.Append(item.ItemName + @"\line");
-            //        foreach (var compositeItem in item.compositeValues.getItems())
-            //        {
-            //            SB.Append(@"\tab " + compositeItem.name + @"\tab = " + (compositeItem.isChecked ? "activated" : "deactivated") + @"\line ");
-            //        }
-            //    }
-            //}
-            data.SetText(colorPalet + SB.ToString() + "}", TextDataFormat.Rtf);
+            RTFTranslator rtf_translator = new RTFTranslator();
+
+            ActiveDefinition.setTranslator(rtf_translator);
+            rtf_translator.Export();
+            data.SetText(rtf_translator.getValue(), TextDataFormat.Rtf);
             Clipboard.SetDataObject(data);
         }
     }

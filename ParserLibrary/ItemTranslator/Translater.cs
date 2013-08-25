@@ -6,7 +6,7 @@ using ParserLibrary.ItemRep;
 
 namespace ParserLibrary.TranslateFactory
 {
-    public abstract class TranslateFactory
+    public abstract class Translater
     {
         protected ItemParser parser;
         public void setParser(ItemParser parser)

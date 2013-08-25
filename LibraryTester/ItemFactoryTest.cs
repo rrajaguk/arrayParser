@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ParserLibrary.ItemFactory;
 using System.IO;
 using ParserLibrary.ItemObject;
-using MultiIMSIInstallParameter.Item;
 using ParserLibrary.ItemObject.Decorator;
 
 namespace LibraryTester

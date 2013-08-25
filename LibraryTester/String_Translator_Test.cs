@@ -13,7 +13,7 @@ using ParserLibrary.TranslateFactory;
 namespace LibraryTester
 {
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClass]
-    public class ItemTranslatorTest
+    public class String_Translator_Test
     {
 
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod]

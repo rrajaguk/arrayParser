@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using MultiIMSIInstallParameter.Item;
 using ParserLibrary.ItemObject;
 
 namespace MultiIMSIInstallParameter.CustomGui
@@ -24,7 +23,6 @@ namespace MultiIMSIInstallParameter.CustomGui
                 CheckBox CB = new CheckBox();
                 CB.Text = currentItem.name;
                 CB.Name = currentItem.location.ToString();
-                //CB.CheckedChanged += CB_CheckedChanged;
                 CB.Size = new System.Drawing.Size(80, 17);
                 CB.AutoSize = true;
                 CB.Location = new Point(7, 20 * i);

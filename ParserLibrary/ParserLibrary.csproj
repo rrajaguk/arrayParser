@@ -40,9 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Displayer\Displayer.cs" />
-    <Compile Include="Displayer\RTFDisplayer.cs" />
-    <Compile Include="Displayer\StringDisplayer.cs" />
+    <Compile Include="ItemTranslator\RTFTranslator.cs" />
     <Compile Include="Factory_Item\ItemFactory.cs" />
     <Compile Include="Factory_Item\NormalItemFactory.cs" />
     <Compile Include="ItemObject\Decorator\ItemDecorator.cs" />
@@ -51,15 +49,10 @@
     <Compile Include="ItemObject\Decorator\OtherItemNotNull_Decorator.cs" />
     <Compile Include="ItemObject\RegularItem.cs" />
     <Compile Include="ItemRep\ItemParser.cs" />
-    <Compile Include="Item\CompositeValue.cs" />
     <Compile Include="ItemObject\Item.cs" />
-    <Compile Include="Item\ItemRepresentate.cs" />
-    <Compile Include="Item\ItemTranslate.cs" />
-    <Compile Include="Parser\Parser.cs" />
-    <Compile Include="Parser\StreamDataDefinitionParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FactoryTranslate\StringTranslator.cs" />
-    <Compile Include="FactoryTranslate\TranslateFactory.cs" />
+    <Compile Include="ItemTranslator\StringTranslator.cs" />
+    <Compile Include="ItemTranslator\Translater.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
