@@ -21,31 +21,43 @@ namespace MultiIMSIInstallParameter
         public MainPage()
         {
             InitializeComponent();
-            string[] DefFiles = System.IO.Directory.GetFiles(
-                System.IO.Directory.GetCurrentDirectory() + "\\ParamDef\\", "*.param");
-            if (DefFiles.Length > 0)
+            
+        }
+
+        private void ExtractDefinition()
+        {
+            try
             {
-                ListOfAvailableDefinition = new ItemParser[DefFiles.Length];
-                ListOfRadioButton = new RadioButton[DefFiles.Length];
-                int count = 0;
-                foreach (string defFile in DefFiles)
+                string[] DefFiles = System.IO.Directory.GetFiles(
+                    System.IO.Directory.GetCurrentDirectory() + "\\ParamDef\\", "*.param");
+                if (DefFiles.Length > 0)
                 {
+                    ListOfAvailableDefinition = new ItemParser[DefFiles.Length];
+                    ListOfRadioButton = new RadioButton[DefFiles.Length];
+                    int count = 0;
+                    foreach (string defFile in DefFiles)
+                    {
 
-                    RadioButton currentParserBtn = new RadioButton();
-                    currentParserBtn.CheckedChanged += currentParserBtn_CheckedChanged;
-                    currentParserBtn.Text = Path.GetFileNameWithoutExtension(defFile);
-                    currentParserBtn.Location = new System.Drawing.Point(0, (count * 20));
-                    currentParserBtn.Size = new System.Drawing.Size(400, 17);
-                    this.ParserType.Controls.Add(currentParserBtn);
+                        RadioButton currentParserBtn = new RadioButton();
+                        currentParserBtn.CheckedChanged += currentParserBtn_CheckedChanged;
+                        currentParserBtn.Text = Path.GetFileNameWithoutExtension(defFile);
+                        currentParserBtn.Location = new System.Drawing.Point(0, (count * 20));
+                        currentParserBtn.Size = new System.Drawing.Size(400, 17);
+                        this.ParserType.Controls.Add(currentParserBtn);
 
-                    ListOfRadioButton[count] = currentParserBtn;
-                    ItemParser currentParser = new ItemParser();
-                    currentParser.setFactory(new NormalItemFactory(new StreamReader(defFile)));
-                    ListOfAvailableDefinition[count] = currentParser;
+                        ListOfRadioButton[count] = currentParserBtn;
+                        ItemParser currentParser = new ItemParser();
+                        currentParser.setFactory(new NormalItemFactory(new StreamReader(defFile)));
+                        ListOfAvailableDefinition[count] = currentParser;
 
-                    count++;
+                        count++;
 
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -214,6 +226,11 @@ namespace MultiIMSIInstallParameter
             rtf_translator.Export();
             data.SetText(rtf_translator.getValue(), TextDataFormat.Rtf);
             Clipboard.SetDataObject(data);
+        }
+
+        private void MainPage_Load(object sender, EventArgs e)
+        {
+            ExtractDefinition();
         }
     }
 }

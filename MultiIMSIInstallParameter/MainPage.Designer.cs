@@ -98,7 +98,7 @@ namespace MultiIMSIInstallParameter
             this.ParserType.Size = new System.Drawing.Size(264, 315);
             this.ParserType.TabIndex = 8;
             // 
-            // Form1
+            // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,8 +113,9 @@ namespace MultiIMSIInstallParameter
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "MainPage";
             this.Text = "Array Parser";
+            this.Shown += new System.EventHandler(this.MainPage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
